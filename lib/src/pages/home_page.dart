@@ -27,25 +27,14 @@ class HomePage extends StatelessWidget {
         ListTile(
           textColor: Colors.black,
           iconColor: Colors.green,
-          leading: Icon(Icons.camera, size: 50),
+          leading: Icon(Icons.remove_red_eye, size: 50),
           title: Text('Detectar'),
-          subtitle: Text('Utiliza tu cámara para empezar con la detección'),
+          subtitle: Text(
+              'Realiza una detección usando tu cámara o una fotografía de Galería'),
           trailing: Icon(Icons.navigate_next, size: 50),
-          onTap: () {},
-        ),
-        Divider(
-          thickness: 1,
-          height: 20,
-          color: Colors.green,
-        ),
-        ListTile(
-          textColor: Colors.black,
-          iconColor: Colors.green,
-          leading: Icon(Icons.image_search_rounded, size: 50),
-          title: Text('Usar galería'),
-          subtitle: Text('Realiza una detección desde tu galería'),
-          trailing: Icon(Icons.navigate_next, size: 50),
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, 'camera');
+          },
         ),
         Divider(
           thickness: 1,
