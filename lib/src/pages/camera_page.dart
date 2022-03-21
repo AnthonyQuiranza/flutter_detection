@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({Key? key}) : super(key: key);
@@ -12,11 +13,18 @@ class CameraPage extends StatefulWidget {
 
 class _CameraPageState extends State<CameraPage> {
   File? imagen;
+  late final File newImage;
   final picker = ImagePicker();
   Future selImagen(op) async {
+    Directory appDirectory = await getApplicationDocumentsDirectory();
+    String appPath = appDirectory.path;
+    print('BASE DE APP: $appPath ');
+
     var pickedFile;
     if (op == 1) {
       pickedFile = await picker.pickImage(source: ImageSource.camera);
+      imagen = File(pickedFile.path);
+      newImage = await imagen!.copy('$appPath/detectionImage.png');
     } else {
       pickedFile = await picker.pickImage(source: ImageSource.gallery);
     }
