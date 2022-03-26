@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({Key? key}) : super(key: key);
@@ -14,19 +16,55 @@ class _CameraPageState extends State<CameraPage> {
   File? imagen;
   final picker = ImagePicker();
   Future selImagen(op) async {
+    Directory appDirectory = await getApplicationDocumentsDirectory();
+    String appPath = appDirectory.path;
+    File _image;
+    print('BASE DE APP: $appPath ');
+
     var pickedFile;
     if (op == 1) {
       pickedFile = await picker.pickImage(source: ImageSource.camera);
+      imagen = File(pickedFile.path);
     } else {
       pickedFile = await picker.pickImage(source: ImageSource.gallery);
     }
+    final File newImage = await imagen!.copy('$appPath/detectionImage.png');
+
     setState(() {
       if (pickedFile != null) {
-        imagen = File(pickedFile.path);
+        // imagen = File(pickedFile.path);
+        cortar(File(pickedFile.path));
+        _image = newImage;
       } else {
         print('No hay imagen seleccionada');
       }
     });
+  }
+
+  cortar(picked) async {
+    File? cortado = await ImageCropper().cropImage(
+        sourcePath: picked.path,
+        androidUiSettings: AndroidUiSettings(
+            toolbarTitle: 'Cortar imagen',
+            toolbarColor: Colors.green,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+        iosUiSettings: IOSUiSettings(
+          minimumAspectRatio: 1.0,
+        ),
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ]);
+    if (cortado != null) {
+      setState(() {
+        imagen = cortado;
+      });
+    }
   }
 
   @override
