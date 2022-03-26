@@ -134,9 +134,9 @@ class _CameraPageState extends State<CameraPage> {
           ListTile(
             textColor: Colors.black,
             iconColor: Colors.green,
-            leading: Icon(Icons.image_search, size: 50),
+            leading: Icon(Icons.screen_search_desktop_rounded, size: 50),
             title: Text('Analizar imagen'),
-            trailing: Icon(Icons.upload, size: 50),
+            trailing: Icon(Icons.navigate_next, size: 50),
             onTap: () {
               analizarImagen();
             },
