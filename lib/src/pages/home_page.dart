@@ -24,6 +24,10 @@ class HomePage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       // ignore: prefer_const_literals_to_create_immutables
       children: [
+        Image(
+          image: AssetImage('assets/images/upec.svg'),
+          height: 300.0,
+        ),
         ListTile(
           textColor: Colors.black,
           iconColor: Colors.green,
@@ -74,12 +78,12 @@ class HomePage extends StatelessWidget {
               // ignore: prefer_const_literals_to_create_immutables
               children: [
                 CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      'https://krugercorp.com/wp-content/uploads/2022/02/KRUGER-icon-naranja-03.png'),
+                  backgroundImage: AssetImage('assets/images/upec.svg'),
                   radius: 40,
                   backgroundColor: Colors.white,
                 ),
-                Text('Este es un proyecto en su versión Beta 0.2'),
+                Text(
+                    'Somos estudiantes de la Carrera de Computación de la Universidad Politécnica Estatal del Carchi'),
                 ListTile(
                   title: Text('Contáctanos'),
                   leading: Icon(Icons.contact_mail),

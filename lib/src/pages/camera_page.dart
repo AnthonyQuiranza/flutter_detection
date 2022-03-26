@@ -13,24 +13,26 @@ class CameraPage extends StatefulWidget {
 
 class _CameraPageState extends State<CameraPage> {
   File? imagen;
-  late final File newImage;
   final picker = ImagePicker();
   Future selImagen(op) async {
     Directory appDirectory = await getApplicationDocumentsDirectory();
     String appPath = appDirectory.path;
+    File _image;
     print('BASE DE APP: $appPath ');
 
     var pickedFile;
     if (op == 1) {
       pickedFile = await picker.pickImage(source: ImageSource.camera);
       imagen = File(pickedFile.path);
-      newImage = await imagen!.copy('$appPath/detectionImage.png');
     } else {
       pickedFile = await picker.pickImage(source: ImageSource.gallery);
     }
+    final File newImage = await imagen!.copy('$appPath/detectionImage.png');
+
     setState(() {
       if (pickedFile != null) {
         imagen = File(pickedFile.path);
+        _image = newImage;
       } else {
         print('No hay imagen seleccionada');
       }
