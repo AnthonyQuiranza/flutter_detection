@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:dio/dio.dart';
 
 class CameraPage extends StatefulWidget {
   const CameraPage({Key? key}) : super(key: key);
@@ -67,6 +68,28 @@ class _CameraPageState extends State<CameraPage> {
     }
   }
 
+  Dio dio = Dio();
+  Future<void> analizarImagen() async {
+    try {
+      String filename = imagen!.path.split('/').last;
+      FormData formData = FormData.fromMap({
+        'file': await MultipartFile.fromFile(imagen!.path, filename: filename)
+      });
+      await dio
+          .post('https://alexquiranza.com/detection/uploadimage.php',
+              data: formData)
+          .then((value) {
+        if (value.toString() != null) {
+          print(value.toString());
+        } else {
+          print("Error al subir la imagen");
+        }
+      });
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,6 +125,20 @@ class _CameraPageState extends State<CameraPage> {
             trailing: Icon(Icons.navigate_next, size: 50),
             onTap: () {
               selImagen(2);
+            },
+          ),
+          Divider(
+            thickness: 1,
+            color: Colors.green,
+          ),
+          ListTile(
+            textColor: Colors.black,
+            iconColor: Colors.green,
+            leading: Icon(Icons.image_search, size: 50),
+            title: Text('Analizar imagen'),
+            trailing: Icon(Icons.upload, size: 50),
+            onTap: () {
+              analizarImagen();
             },
           ),
           Divider(
