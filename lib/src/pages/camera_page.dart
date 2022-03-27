@@ -18,6 +18,7 @@ class CameraPage extends StatefulWidget {
 
 class _CameraPageState extends State<CameraPage> {
   File? imagen;
+  bool enabledAnalizar = false;
   final picker = ImagePicker();
   Future selImagen(op) async {
     Directory appDirectory = await getApplicationDocumentsDirectory();
@@ -65,6 +66,7 @@ class _CameraPageState extends State<CameraPage> {
     if (cortado != null) {
       setState(() {
         imagen = cortado;
+        enabledAnalizar = true;
       });
     }
   }
@@ -169,6 +171,7 @@ class _CameraPageState extends State<CameraPage> {
             color: Colors.green,
           ),
           ListTile(
+            enabled: enabledAnalizar,
             textColor: Colors.black,
             iconColor: Colors.green,
             leading: Icon(Icons.screen_search_desktop_rounded, size: 50),
