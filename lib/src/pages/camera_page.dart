@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:detection/src/models/api_model.dart';
+import 'package:detection/src/models/style_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -129,8 +130,10 @@ class _CameraPageState extends State<CameraPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cámara'),
-        elevation: 20,
+        title: Text(
+          'Cámara',
+          textAlign: TextAlign.center,
+        ),
         toolbarTextStyle: TextStyle(fontWeight: FontWeight.w800),
         centerTitle: true,
         backgroundColor: Colors.green,
@@ -141,7 +144,12 @@ class _CameraPageState extends State<CameraPage> {
             textColor: Colors.black,
             iconColor: Colors.green,
             leading: Icon(Icons.camera, size: 50),
-            title: Text('Usar cámara'),
+            title: Text(
+              'Usar cámara',
+              textAlign: TextAlign.center,
+              textScaleFactor: 1.3,
+              style: titleStyle,
+            ),
             trailing: Icon(Icons.navigate_next, size: 50),
             onTap: () {
               urlImageResult = null;
@@ -158,7 +166,12 @@ class _CameraPageState extends State<CameraPage> {
             textColor: Colors.black,
             iconColor: Colors.green,
             leading: Icon(Icons.image_search, size: 50),
-            title: Text('Usar Galería'),
+            title: Text(
+              'Usar Galería',
+              textAlign: TextAlign.center,
+              textScaleFactor: 1.3,
+              style: titleStyle,
+            ),
             trailing: Icon(Icons.navigate_next, size: 50),
             onTap: () {
               urlImageResult = null;
@@ -175,7 +188,11 @@ class _CameraPageState extends State<CameraPage> {
             textColor: Colors.black,
             iconColor: Colors.green,
             leading: Icon(Icons.screen_search_desktop_rounded, size: 50),
-            title: Text('Analizar imagen'),
+            title: Text(
+              'Analizar imagen',
+              textAlign: TextAlign.center,
+              textScaleFactor: 1.3,
+            ),
             trailing: Icon(Icons.navigate_next, size: 50),
             onTap: () {
               analizarImagen();

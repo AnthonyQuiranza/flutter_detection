@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:detection/src/models/style_model.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -7,13 +8,13 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Menú Principal'),
-        elevation: 20,
-        toolbarTextStyle: TextStyle(fontWeight: FontWeight.w800),
-        centerTitle: true,
-        backgroundColor: Colors.green,
-      ),
+      // appBar: AppBar(
+      //   title: Text('Menú Principal'),
+      //   elevation: 20,S
+      //   toolbarTextStyle: TextStyle(fontWeight: FontWeight.w800),
+      //   centerTitle: true,
+      //   backgroundColor: Colors.green,
+      // ),
       body: _menuList(context),
     );
   }
@@ -32,9 +33,16 @@ class HomePage extends StatelessWidget {
           textColor: Colors.black,
           iconColor: Colors.green,
           leading: Icon(Icons.remove_red_eye, size: 50),
-          title: Text('Detectar'),
+          title: Text(
+            'Detectar',
+            textAlign: TextAlign.center,
+            textScaleFactor: 1.3,
+            style: titleStyle,
+          ),
           subtitle: Text(
-              'Realiza una detección usando tu cámara o una fotografía de Galería'),
+            'Realiza una detección usando tu cámara o una fotografía de Galería',
+            textScaleFactor: 1.2,
+          ),
           trailing: Icon(Icons.navigate_next, size: 50),
           onTap: () {
             Navigator.pushNamed(context, 'camera');
@@ -49,9 +57,16 @@ class HomePage extends StatelessWidget {
           textColor: Colors.black,
           iconColor: Colors.green,
           leading: Icon(Icons.question_mark, size: 50),
-          title: Text('¿Quiénes somos?'),
-          subtitle:
-              Text('¿Deseas saber más sobre nosotros y nuestro proyecto?'),
+          title: Text(
+            '¿Quiénes somos?',
+            textAlign: TextAlign.center,
+            textScaleFactor: 1.3,
+            style: titleStyle,
+          ),
+          subtitle: Text(
+            '¿Deseas saber más sobre nosotros y nuestro proyecto?',
+            textScaleFactor: 1.2,
+          ),
           trailing: Icon(Icons.navigate_next, size: 50),
           onTap: () => _quienesSomosAlert(context),
         ),
