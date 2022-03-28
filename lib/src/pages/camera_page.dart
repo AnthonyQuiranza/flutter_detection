@@ -20,24 +20,31 @@ class CameraPage extends StatefulWidget {
 
 class _CameraPageState extends State<CameraPage> {
   File? imagen;
+  bool loading = true;
   bool enabledAnalizar = false;
   final picker = ImagePicker();
+  bool clicAnalizar = false;
   Future selImagen(op) async {
     Directory appDirectory = await getApplicationDocumentsDirectory();
     String appPath = appDirectory.path;
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String appDocPath = appDocDir.path;
+    File saveImage;
+    File saveImage2;
     print('BASE DE APP: $appPath ');
 
     var pickedFile;
     if (op == 1) {
       pickedFile = await picker.pickImage(source: ImageSource.camera);
       imagen = File(pickedFile.path);
+      saveImage = await imagen!.copy('$appDocPath/image1.png');
     } else {
       pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      saveImage = await imagen!.copy('$appDocPath/image1.png');
     }
 
     setState(() {
       if (pickedFile != null) {
-        // imagen = File(pickedFile.path);
         cortar(File(pickedFile.path));
       } else {
         print('No hay imagen seleccionada');
@@ -77,6 +84,9 @@ class _CameraPageState extends State<CameraPage> {
   String? urlImageResult;
   String? diseaseImageResult;
   Future<void> analizarImagen() async {
+    setState(() {
+      clicAnalizar = true;
+    });
     try {
       String filename = imagen!.path.split('/').last;
       FormData formData = FormData.fromMap({
@@ -89,7 +99,6 @@ class _CameraPageState extends State<CameraPage> {
         if (value.toString() != null) {
           print(value.toString());
           urlImage = value.toString();
-
           postData(urlImage);
         } else {
           print("Error al subir la imagen");
@@ -120,6 +129,7 @@ class _CameraPageState extends State<CameraPage> {
       setState(() {
         urlImageResult = listResultado['url'].toString();
         diseaseImageResult = listResultado['disease_name'.toString()];
+        loading = false;
       });
     } catch (e) {
       print(e.toString());
@@ -133,7 +143,7 @@ class _CameraPageState extends State<CameraPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Cámara',
+          'Detección',
           textAlign: TextAlign.center,
         ),
         toolbarTextStyle: TextStyle(fontWeight: FontWeight.w800),
@@ -156,6 +166,8 @@ class _CameraPageState extends State<CameraPage> {
             onTap: () {
               urlImageResult = null;
               imagen = null;
+              loading = true;
+              clicAnalizar = false;
               selImagen(1);
             },
           ),
@@ -178,6 +190,8 @@ class _CameraPageState extends State<CameraPage> {
             onTap: () {
               urlImageResult = null;
               imagen = null;
+              loading = true;
+              clicAnalizar = false;
               selImagen(2);
             },
           ),
@@ -204,8 +218,12 @@ class _CameraPageState extends State<CameraPage> {
             thickness: 1,
             color: Colors.green,
           ),
+          (loading == true && clicAnalizar == false && urlImageResult == null)
+              ? Container(
+                  height: 0,
+                )
+              : _resultButton(),
           Container(
-            width: 100,
             margin: EdgeInsets.all(20),
             child: _buildChild(),
           )
@@ -217,9 +235,21 @@ class _CameraPageState extends State<CameraPage> {
   Widget _buildChild() {
     if (urlImageResult == null && imagen != null) {
       return Image.file(imagen!);
-    } else if (urlImageResult != null) {
-      // return Image.network(urlImageResult!);
-      enabledAnalizar = false;
+    } else {
+      return Center();
+    }
+  }
+
+  Widget _resultButton() {
+    if (loading == true) {
+      return Center(
+        child: Container(
+          width: 30,
+          height: 30,
+          child: CircularProgressIndicator(color: Colors.green),
+        ),
+      );
+    } else {
       return ElevatedButton.icon(
           style: ElevatedButton.styleFrom(primary: Colors.green),
           onPressed: () =>
@@ -228,8 +258,6 @@ class _CameraPageState extends State<CameraPage> {
             Icons.check,
           ),
           label: Text('Ver resultado'));
-    } else {
-      return Center();
     }
   }
 }
