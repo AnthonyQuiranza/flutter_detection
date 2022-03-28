@@ -9,15 +9,20 @@ resultAlert(BuildContext context, String url, String disease) {
         return AlertDialog(
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-          title: Text('Resultado', style: TextStyle(color: Colors.green)),
+          title: Text('Resultado', style: titleStyle),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             // ignore: prefer_const_literals_to_create_immutables
             children: [
               Container(
-                margin: EdgeInsets.all(8.0),
-                child: Image.network(url),
-              ),
+                  margin: EdgeInsets.all(8.0),
+                  child: FadeInImage(
+                    placeholder: AssetImage('assets/images/jar-loading.gif'),
+                    image: NetworkImage(url),
+                    fadeInDuration: Duration(milliseconds: 200),
+                    height: 300.0,
+                    fit: BoxFit.cover,
+                  )),
               Text('Las enfermedades encontradas son:'),
               Text(
                 disease,
