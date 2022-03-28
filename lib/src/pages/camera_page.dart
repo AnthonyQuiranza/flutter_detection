@@ -25,7 +25,6 @@ class _CameraPageState extends State<CameraPage> {
   Future selImagen(op) async {
     Directory appDirectory = await getApplicationDocumentsDirectory();
     String appPath = appDirectory.path;
-    File _image;
     print('BASE DE APP: $appPath ');
 
     var pickedFile;
@@ -76,6 +75,7 @@ class _CameraPageState extends State<CameraPage> {
   Dio dio = Dio();
   String urlImage = "";
   String? urlImageResult;
+  String? diseaseImageResult;
   Future<void> analizarImagen() async {
     try {
       String filename = imagen!.path.split('/').last;
@@ -119,6 +119,7 @@ class _CameraPageState extends State<CameraPage> {
       print("El último elemento es ${listResultado['url']}");
       setState(() {
         urlImageResult = listResultado['url'].toString();
+        diseaseImageResult = listResultado['disease_name'.toString()];
       });
     } catch (e) {
       print(e.toString());
@@ -221,7 +222,8 @@ class _CameraPageState extends State<CameraPage> {
       enabledAnalizar = false;
       return ElevatedButton.icon(
           style: ElevatedButton.styleFrom(primary: Colors.green),
-          onPressed: () => resultAlert(context, urlImageResult!),
+          onPressed: () =>
+              resultAlert(context, urlImageResult!, diseaseImageResult!),
           icon: Icon(
             Icons.check,
           ),

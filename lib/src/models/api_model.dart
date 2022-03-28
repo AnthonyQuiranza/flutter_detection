@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class ImgResult {
   final List<dynamic> result;
   const ImgResult({required this.result});
