@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:detection/src/componets/result_alert_component.dart';
 import 'package:detection/src/models/api_model.dart';
 import 'package:detection/src/models/style_model.dart';
 import 'package:flutter/material.dart';
@@ -216,7 +217,15 @@ class _CameraPageState extends State<CameraPage> {
     if (urlImageResult == null && imagen != null) {
       return Image.file(imagen!);
     } else if (urlImageResult != null) {
-      return Image.network(urlImageResult!);
+      // return Image.network(urlImageResult!);
+      enabledAnalizar = false;
+      return ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(primary: Colors.green),
+          onPressed: () => resultAlert(context, urlImageResult!),
+          icon: Icon(
+            Icons.check,
+          ),
+          label: Text('Ver resultado'));
     } else {
       return Center();
     }
