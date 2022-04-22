@@ -40,6 +40,7 @@ class _CameraPageState extends State<CameraPage> {
       saveImage = await imagen!.copy('$appDocPath/image1.png');
     } else {
       pickedFile = await picker.pickImage(source: ImageSource.gallery);
+      imagen = File(pickedFile.path);
       saveImage = await imagen!.copy('$appDocPath/image1.png');
     }
 
