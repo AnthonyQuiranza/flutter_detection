@@ -65,6 +65,8 @@ class _CameraPageState extends State<CameraPage> {
         iosUiSettings: IOSUiSettings(
           minimumAspectRatio: 1.0,
         ),
+        maxHeight: 500,
+        compressQuality: 60,
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
           CropAspectRatioPreset.ratio3x2,
