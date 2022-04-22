@@ -26,9 +26,10 @@ class HomePage extends StatelessWidget {
       // ignore: prefer_const_literals_to_create_immutables
       children: [
         Image(
-          image: AssetImage('assets/images/upec.svg'),
-          height: 300.0,
+          image: AssetImage('assets/images/logofarm.png'),
+          height: 200.0,
         ),
+        Divider(height: 30),
         ListTile(
           textColor: Colors.black,
           iconColor: Colors.green,
