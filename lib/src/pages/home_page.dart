@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
             style: titleStyle,
           ),
           subtitle: Text(
-            'Realiza una detección usando tu cámara o una fotografía de Galería',
+            'Realiza detección de enfermedades usando tu cámara o una fotografía de Galería',
             textScaleFactor: 1.2,
           ),
           trailing: Icon(Icons.navigate_next, size: 50),
