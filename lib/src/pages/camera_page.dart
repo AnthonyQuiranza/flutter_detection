@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:detection/src/componets/result_alert_component.dart';
 import 'package:detection/src/models/api_model.dart';
 import 'package:detection/src/models/style_model.dart';
@@ -74,6 +76,17 @@ class _CameraPageState extends State<CameraPage> {
           CropAspectRatioPreset.ratio4x3,
           CropAspectRatioPreset.ratio16x9
         ]);
+    //-----------------SAVE IMAGE -------------//
+    Uint8List? bytes = await cortado?.readAsBytes();
+    var result = await ImageGallerySaver.saveImage(bytes!,
+        quality: 60, name: "AgroTech.jpg");
+    print(result);
+    if (result["isSuccess"] == true) {
+      print("Imagen guardada exitosamente.");
+    } else {
+      print(result["errorMessage"]);
+    }
+    //---------SAVE IMAGE------//
     if (cortado != null) {
       setState(() {
         imagen = cortado;
