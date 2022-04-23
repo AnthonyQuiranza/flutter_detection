@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:detection/src/componets/result_alert_component.dart';
 import 'package:detection/src/models/api_model.dart';
 import 'package:detection/src/models/style_model.dart';
@@ -74,6 +76,17 @@ class _CameraPageState extends State<CameraPage> {
           CropAspectRatioPreset.ratio4x3,
           CropAspectRatioPreset.ratio16x9
         ]);
+    //-----------------SAVE IMAGE -------------//
+    Uint8List? bytes = await cortado?.readAsBytes();
+    var result = await ImageGallerySaver.saveImage(bytes!,
+        quality: 60, name: "AgroTech.jpg");
+    print(result);
+    if (result["isSuccess"] == true) {
+      print("Imagen guardada exitosamente.");
+    } else {
+      print(result["errorMessage"]);
+    }
+    //---------SAVE IMAGE------//
     if (cortado != null) {
       setState(() {
         imagen = cortado;
@@ -145,81 +158,98 @@ class _CameraPageState extends State<CameraPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 7,
         title: Text(
           'Detección',
           textAlign: TextAlign.center,
+          textScaleFactor: 1.2,
         ),
-        toolbarTextStyle: TextStyle(fontWeight: FontWeight.w800),
+        toolbarTextStyle: TextStyle(fontWeight: FontWeight.bold),
         centerTitle: true,
         backgroundColor: Colors.green,
       ),
       body: ListView(
         children: [
-          ListTile(
-            textColor: Colors.black,
-            iconColor: Colors.green,
-            leading: Icon(Icons.camera, size: 50),
-            title: Text(
-              'Usar cámara',
-              textAlign: TextAlign.center,
-              textScaleFactor: 1.3,
-              style: titleStyle,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Card(
+                elevation: 10,
+                margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.camera_alt,
+                      size: 50,
+                      color: Colors.green,
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          urlImageResult = null;
+                          imagen = null;
+                          loading = true;
+                          clicAnalizar = false;
+                          selImagen(1);
+                        },
+                        child: Text(
+                          'Usar Cámara',
+                          textAlign: TextAlign.center,
+                          textScaleFactor: 1.5,
+                          style: titleStyle,
+                        ))
+                  ],
+                ),
+              ),
+              Card(
+                elevation: 10,
+                margin: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                color: Colors.white,
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.image_search,
+                      size: 50,
+                      color: Colors.green,
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          urlImageResult = null;
+                          imagen = null;
+                          loading = true;
+                          clicAnalizar = false;
+                          selImagen(2);
+                        },
+                        child: Text(
+                          'Usar Galería',
+                          textAlign: TextAlign.center,
+                          textScaleFactor: 1.5,
+                          style: titleStyle,
+                        ))
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Card(
+            elevation: 10,
+            color: Colors.white,
+            margin: EdgeInsets.fromLTRB(30, 10, 30, 20),
+            child: ListTile(
+              enabled: enabledAnalizar,
+              textColor: Colors.black,
+              iconColor: Colors.green,
+              leading: Icon(Icons.screen_search_desktop_rounded, size: 50),
+              title: Text(
+                'Analizar imagen',
+                textAlign: TextAlign.center,
+                textScaleFactor: 1.3,
+              ),
+              trailing: Icon(Icons.navigate_next, size: 50),
+              onTap: () {
+                analizarImagen();
+              },
             ),
-            trailing: Icon(Icons.navigate_next, size: 50),
-            onTap: () {
-              urlImageResult = null;
-              imagen = null;
-              loading = true;
-              clicAnalizar = false;
-              selImagen(1);
-            },
-          ),
-          Divider(
-            thickness: 1,
-            height: 20,
-            color: Colors.green,
-          ),
-          ListTile(
-            textColor: Colors.black,
-            iconColor: Colors.green,
-            leading: Icon(Icons.image_search, size: 50),
-            title: Text(
-              'Usar Galería',
-              textAlign: TextAlign.center,
-              textScaleFactor: 1.3,
-              style: titleStyle,
-            ),
-            trailing: Icon(Icons.navigate_next, size: 50),
-            onTap: () {
-              urlImageResult = null;
-              imagen = null;
-              loading = true;
-              clicAnalizar = false;
-              selImagen(2);
-            },
-          ),
-          Divider(
-            thickness: 1,
-            color: Colors.green,
-          ),
-          ListTile(
-            enabled: enabledAnalizar,
-            textColor: Colors.black,
-            iconColor: Colors.green,
-            leading: Icon(Icons.screen_search_desktop_rounded, size: 50),
-            title: Text(
-              'Analizar imagen',
-              textAlign: TextAlign.center,
-              textScaleFactor: 1.3,
-            ),
-            trailing: Icon(Icons.navigate_next, size: 50),
-            onTap: () {
-              analizarImagen();
-            },
-          ),
-          Divider(
-            thickness: 1,
-            color: Colors.green,
           ),
           (loading == true && clicAnalizar == false && urlImageResult == null)
               ? Container(
@@ -227,7 +257,7 @@ class _CameraPageState extends State<CameraPage> {
                 )
               : _resultButton(),
           Container(
-            margin: EdgeInsets.all(20),
+            margin: EdgeInsets.fromLTRB(30, 10, 30, 10),
             child: _buildChild(),
           )
         ],

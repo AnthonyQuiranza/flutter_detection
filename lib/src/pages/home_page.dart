@@ -30,51 +30,56 @@ class HomePage extends StatelessWidget {
           height: 200.0,
         ),
         Divider(height: 30),
-        ListTile(
-          textColor: Colors.black,
-          iconColor: Colors.green,
-          leading: Icon(Icons.remove_red_eye, size: 50),
-          title: Text(
-            'Detectar',
-            textAlign: TextAlign.center,
-            textScaleFactor: 1.3,
-            style: titleStyle,
+        Card(
+          elevation: 10,
+          color: Colors.white,
+          margin: EdgeInsets.only(left: 20, right: 20),
+          child: ListTile(
+            textColor: Colors.black,
+            iconColor: Colors.green,
+            leading: Icon(Icons.remove_red_eye, size: 50),
+            title: Text(
+              'Detectar',
+              textAlign: TextAlign.center,
+              textScaleFactor: 1.3,
+              style: titleStyle,
+            ),
+            subtitle: Text(
+              'Detecta enfermedades usando tu cámara o una fotografía de Galería',
+              textScaleFactor: 1.2,
+              textAlign: TextAlign.justify,
+              style: subtitleStyle,
+            ),
+            trailing: Icon(Icons.navigate_next, size: 50),
+            onTap: () {
+              Navigator.pushNamed(context, 'camera');
+            },
           ),
-          subtitle: Text(
-            'Realiza detección de enfermedades usando tu cámara o una fotografía de Galería',
-            textScaleFactor: 1.2,
-          ),
-          trailing: Icon(Icons.navigate_next, size: 50),
-          onTap: () {
-            Navigator.pushNamed(context, 'camera');
-          },
         ),
-        Divider(
-          thickness: 1,
-          height: 20,
-          color: Colors.green,
-        ),
-        ListTile(
-          textColor: Colors.black,
-          iconColor: Colors.green,
-          leading: Icon(Icons.question_mark, size: 50),
-          title: Text(
-            '¿Quiénes somos?',
-            textAlign: TextAlign.center,
-            textScaleFactor: 1.3,
-            style: titleStyle,
+        Divider(height: 30),
+        Card(
+          elevation: 10,
+          color: Colors.white,
+          margin: EdgeInsets.only(left: 20, right: 20),
+          child: ListTile(
+            textColor: Colors.black,
+            iconColor: Colors.green,
+            leading: Icon(Icons.question_mark, size: 50),
+            title: Text(
+              '¿Quiénes somos?',
+              textAlign: TextAlign.center,
+              textScaleFactor: 1.3,
+              style: titleStyle,
+            ),
+            subtitle: Text(
+              '¿Deseas saber más sobre nosotros y nuestro proyecto?',
+              textScaleFactor: 1.2,
+              textAlign: TextAlign.justify,
+              style: subtitleStyle,
+            ),
+            trailing: Icon(Icons.navigate_next, size: 50),
+            onTap: () => _quienesSomosAlert(context),
           ),
-          subtitle: Text(
-            '¿Deseas saber más sobre nosotros y nuestro proyecto?',
-            textScaleFactor: 1.2,
-          ),
-          trailing: Icon(Icons.navigate_next, size: 50),
-          onTap: () => _quienesSomosAlert(context),
-        ),
-        Divider(
-          thickness: 1,
-          height: 20,
-          color: Colors.green,
         ),
       ],
     ));
