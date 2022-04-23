@@ -5,5 +5,5 @@ TextStyle titleStyle = const TextStyle(
   color: Colors.green,
 );
 TextStyle subtitleStyle = const TextStyle(
-  fontWeight: FontWeight.normal,
+  fontWeight: FontWeight.w400,
 );
