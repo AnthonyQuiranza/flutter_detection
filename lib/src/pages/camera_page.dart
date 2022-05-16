@@ -68,6 +68,7 @@ class _CameraPageState extends State<CameraPage> {
           minimumAspectRatio: 1.0,
         ),
         maxHeight: 500,
+        maxWidth: 500,
         compressQuality: 60,
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
