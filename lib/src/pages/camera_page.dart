@@ -32,21 +32,15 @@ class _CameraPageState extends State<CameraPage> {
   Future selImagen(op) async {
     Directory appDirectory = await getApplicationDocumentsDirectory();
     String appPath = appDirectory.path;
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String appDocPath = appDocDir.path;
-    File saveImage;
-    File saveImage2;
     print('BASE DE APP: $appPath ');
 
     var pickedFile;
     if (op == 1) {
       pickedFile = await picker.pickImage(source: ImageSource.camera);
       imagen = File(pickedFile.path);
-      saveImage = await imagen!.copy('$appDocPath/image1.png');
     } else {
       pickedFile = await picker.pickImage(source: ImageSource.gallery);
       imagen = File(pickedFile.path);
-      saveImage = await imagen!.copy('$appDocPath/image1.png');
     }
 
     setState(() {
@@ -116,6 +110,7 @@ class _CameraPageState extends State<CameraPage> {
           .post('https://alexquiranza.com/detection/uploadimage.php',
               data: formData)
           .then((value) {
+        // ignore: unnecessary_null_comparison
         if (value.toString() != null) {
           print(value.toString());
           urlImage = value.toString();

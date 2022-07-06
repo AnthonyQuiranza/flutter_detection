@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:detection/src/componets/warning_component.dart';
-import 'package:detection/src/controllers/connection_status_controller.dart';
 import 'package:detection/src/models/style_model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+final Uri _videoURL = Uri.parse('https://youtu.be/7p1y6aqcJbM');
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -49,12 +49,6 @@ class HomePage extends StatelessWidget {
             trailing: Icon(Icons.navigate_next, size: 50),
             onTap: () {
               Navigator.pushNamed(context, 'camera');
-              /* if (controller.status.string == "ConnectionStatus.online") {
-                print("Hay conexión a internet");
-              } else {
-                print("No hay conexión a internet");
-                internetAlert(context);
-              } */
             },
           ),
         ),
@@ -80,9 +74,7 @@ class HomePage extends StatelessWidget {
               style: subtitleStyle,
             ),
             trailing: Icon(Icons.navigate_next, size: 50),
-            onTap: () {
-              Navigator.pushNamed(context, 'camera');
-            },
+            onTap: _launchUrl,
           ),
         ),
         Divider(height: 30),
@@ -93,7 +85,7 @@ class HomePage extends StatelessWidget {
           child: ListTile(
             textColor: Colors.black,
             iconColor: Colors.green,
-            leading: Icon(Icons.question_mark, size: 50),
+            leading: Icon(Icons.question_answer, size: 50),
             title: Text(
               '¿Quiénes somos?',
               textAlign: TextAlign.center,
@@ -163,5 +155,9 @@ class HomePage extends StatelessWidget {
             ],
           );
         });
+  }
+
+  void _launchUrl() async {
+    if (!await launchUrl(_videoURL)) throw 'No se puede abrir $_videoURL';
   }
 }
