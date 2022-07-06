@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
+import 'dart:math';
 import 'package:detection/src/componets/warning_component.dart';
 import 'package:detection/src/controllers/connection_status_controller.dart';
 import 'package:get/get.dart' as getx;
@@ -15,6 +15,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+
+Random random = new Random();
 
 class CameraPage extends StatefulWidget {
   const CameraPage({Key? key}) : super(key: key);
@@ -53,6 +55,8 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   cortar(picked) async {
+    int randomNumber = random.nextInt(100000);
+
     File? cortado = await ImageCropper().cropImage(
         sourcePath: picked.path,
         androidUiSettings: AndroidUiSettings(
@@ -77,7 +81,7 @@ class _CameraPageState extends State<CameraPage> {
     //-----------------SAVE IMAGE -------------//
     Uint8List? bytes = await cortado?.readAsBytes();
     var result = await ImageGallerySaver.saveImage(bytes!,
-        quality: 60, name: "AgroTech.jpg");
+        quality: 60, name: "AgroTech $randomNumber.jpg");
     print(result);
     if (result["isSuccess"] == true) {
       print("Imagen guardada exitosamente.");
