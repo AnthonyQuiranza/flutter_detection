@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:detection/src/componets/warning_component.dart';
+import 'package:detection/src/controllers/connection_status_controller.dart';
+import 'package:get/get.dart' as getx;
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:detection/src/componets/result_alert_component.dart';
 import 'package:detection/src/models/api_model.dart';
@@ -157,6 +160,8 @@ class _CameraPageState extends State<CameraPage> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = getx.Get.put(ConnectionStatusController());
+
     return Scaffold(
       appBar: AppBar(
         elevation: 7,
@@ -248,7 +253,11 @@ class _CameraPageState extends State<CameraPage> {
               ),
               trailing: Icon(Icons.navigate_next, size: 50),
               onTap: () {
-                analizarImagen();
+                if (controller.status.string == "ConnectionStatus.online") {
+                  analizarImagen();
+                } else {
+                  internetAlert(context);
+                }
               },
             ),
           ),

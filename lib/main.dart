@@ -1,6 +1,9 @@
+import 'package:detection/src/models/internet_model.dart';
 import 'package:detection/src/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+final internetChecker = CheckInternetConnection();
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(

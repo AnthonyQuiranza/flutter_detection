@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:detection/src/componets/warning_component.dart';
+import 'package:detection/src/controllers/connection_status_controller.dart';
 import 'package:detection/src/models/style_model.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -46,6 +49,12 @@ class HomePage extends StatelessWidget {
             trailing: Icon(Icons.navigate_next, size: 50),
             onTap: () {
               Navigator.pushNamed(context, 'camera');
+              /* if (controller.status.string == "ConnectionStatus.online") {
+                print("Hay conexión a internet");
+              } else {
+                print("No hay conexión a internet");
+                internetAlert(context);
+              } */
             },
           ),
         ),
