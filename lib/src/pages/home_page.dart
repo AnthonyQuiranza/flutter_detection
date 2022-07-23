@@ -2,19 +2,15 @@
 
 import 'package:detection/src/models/style_model.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+final Uri _videoURL = Uri.parse('https://youtu.be/7p1y6aqcJbM');
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('Menú Principal'),
-      //   elevation: 20,S
-      //   toolbarTextStyle: TextStyle(fontWeight: FontWeight.w800),
-      //   centerTitle: true,
-      //   backgroundColor: Colors.green,
-      // ),
       body: _menuList(context),
     );
   }
@@ -64,7 +60,32 @@ class HomePage extends StatelessWidget {
           child: ListTile(
             textColor: Colors.black,
             iconColor: Colors.green,
-            leading: Icon(Icons.question_mark, size: 50),
+            leading: Icon(Icons.help, size: 50),
+            title: Text(
+              '¿Cómo funciona?',
+              textAlign: TextAlign.center,
+              textScaleFactor: 1.3,
+              style: titleStyle,
+            ),
+            subtitle: Text(
+              '¿Tienes dudas de cómo usar Agrotech?',
+              textScaleFactor: 1.2,
+              textAlign: TextAlign.justify,
+              style: subtitleStyle,
+            ),
+            trailing: Icon(Icons.navigate_next, size: 50),
+            onTap: _launchUrl,
+          ),
+        ),
+        Divider(height: 30),
+        Card(
+          elevation: 10,
+          color: Colors.white,
+          margin: EdgeInsets.only(left: 20, right: 20),
+          child: ListTile(
+            textColor: Colors.black,
+            iconColor: Colors.green,
+            leading: Icon(Icons.question_answer, size: 50),
             title: Text(
               '¿Quiénes somos?',
               textAlign: TextAlign.center,
@@ -98,21 +119,27 @@ class HomePage extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               // ignore: prefer_const_literals_to_create_immutables
               children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage('assets/images/upec.svg'),
-                  radius: 40,
-                  backgroundColor: Colors.white,
+                Image(
+                  image: AssetImage('assets/images/logofarm.png'),
+                  height: 100.0,
                 ),
+                Divider(),
                 Text(
-                    'Somos estudiantes de la Carrera de Computación de la Universidad Politécnica Estatal del Carchi'),
+                    'Agrotech es un proyecto desarrollado para la detección de enfermedades en el cultivo de papa, haciendo uso de inteligencia artificial.'),
+                Divider(),
+                Text("Autores:"),
                 ListTile(
-                  title: Text('Contáctanos'),
-                  leading: Icon(Icons.contact_mail),
+                  title: Text('Anthony Quiranza'),
+                  leading: CircleAvatar(
+                    backgroundImage: AssetImage('assets/images/Anthony.png'),
+                  ),
                 ),
                 ListTile(
-                  title: Text('Visítanos en nuestro sitio web'),
-                  leading: Icon(Icons.web),
-                )
+                  title: Text('Daniela Morán'),
+                  leading: CircleAvatar(
+                    backgroundImage: AssetImage('assets/images/Daniela.png'),
+                  ),
+                ),
               ],
             ),
             actions: [
@@ -128,5 +155,9 @@ class HomePage extends StatelessWidget {
             ],
           );
         });
+  }
+
+  void _launchUrl() async {
+    if (!await launchUrl(_videoURL)) throw 'No se puede abrir $_videoURL';
   }
 }

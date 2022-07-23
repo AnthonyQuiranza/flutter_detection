@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
+import 'dart:math';
+import 'package:detection/src/componets/warning_component.dart';
+import 'package:detection/src/controllers/connection_status_controller.dart';
+import 'package:get/get.dart' as getx;
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:detection/src/componets/result_alert_component.dart';
 import 'package:detection/src/models/api_model.dart';
@@ -12,6 +15,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
+
+Random random = new Random();
 
 class CameraPage extends StatefulWidget {
   const CameraPage({Key? key}) : super(key: key);
@@ -29,21 +34,15 @@ class _CameraPageState extends State<CameraPage> {
   Future selImagen(op) async {
     Directory appDirectory = await getApplicationDocumentsDirectory();
     String appPath = appDirectory.path;
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String appDocPath = appDocDir.path;
-    File saveImage;
-    File saveImage2;
     print('BASE DE APP: $appPath ');
 
     var pickedFile;
     if (op == 1) {
       pickedFile = await picker.pickImage(source: ImageSource.camera);
       imagen = File(pickedFile.path);
-      saveImage = await imagen!.copy('$appDocPath/image1.png');
     } else {
       pickedFile = await picker.pickImage(source: ImageSource.gallery);
       imagen = File(pickedFile.path);
-      saveImage = await imagen!.copy('$appDocPath/image1.png');
     }
 
     setState(() {
@@ -56,6 +55,8 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   cortar(picked) async {
+    int randomNumber = random.nextInt(100000);
+
     File? cortado = await ImageCropper().cropImage(
         sourcePath: picked.path,
         androidUiSettings: AndroidUiSettings(
@@ -80,7 +81,7 @@ class _CameraPageState extends State<CameraPage> {
     //-----------------SAVE IMAGE -------------//
     Uint8List? bytes = await cortado?.readAsBytes();
     var result = await ImageGallerySaver.saveImage(bytes!,
-        quality: 60, name: "AgroTech.jpg");
+        quality: 60, name: "AgroTech $randomNumber.jpg");
     print(result);
     if (result["isSuccess"] == true) {
       print("Imagen guardada exitosamente.");
@@ -113,6 +114,7 @@ class _CameraPageState extends State<CameraPage> {
           .post('https://alexquiranza.com/detection/uploadimage.php',
               data: formData)
           .then((value) {
+        // ignore: unnecessary_null_comparison
         if (value.toString() != null) {
           print(value.toString());
           urlImage = value.toString();
@@ -157,6 +159,8 @@ class _CameraPageState extends State<CameraPage> {
 
   @override
   Widget build(BuildContext context) {
+    final controller = getx.Get.put(ConnectionStatusController());
+
     return Scaffold(
       appBar: AppBar(
         elevation: 7,
@@ -248,7 +252,11 @@ class _CameraPageState extends State<CameraPage> {
               ),
               trailing: Icon(Icons.navigate_next, size: 50),
               onTap: () {
-                analizarImagen();
+                if (controller.status.string == "ConnectionStatus.online") {
+                  analizarImagen();
+                } else {
+                  internetAlert(context);
+                }
               },
             ),
           ),
