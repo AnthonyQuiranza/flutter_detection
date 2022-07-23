@@ -4,7 +4,7 @@ internetAlert(BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       backgroundColor: Colors.green,
-      duration: Duration(seconds: 10),
+      duration: Duration(seconds: 5),
       content: Text(
         "Necesitas conectarte a internet, por favor revisa tu conexión.",
         style: TextStyle(fontSize: 20.0),
